@@ -1,0 +1,56 @@
+{
+  "name": "terminatorator",
+  "description": "A terminal emulator for your browser",
+  "version": "0.0.1",
+  "keywords": [
+    "javascript",
+    "terminal",
+    "console",
+    "shell"
+  ],
+  "homepage": "https://github.com/achingbrain/terminatorator",
+  "author": "Alex Potsides <alex@achingbrain.net",
+  "bugs": {
+    "url": "https://github.com/achingbrain/terminatorator/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/achingbrain/terminatorator.git"
+  },
+  "scripts": {
+    "build": "webpack",
+    "test": "node test/index.js",
+    "start": "webpack-dev-server",
+    "lint": "standard"
+  },
+  "main": "src/terminal.js",
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.0.0",
+    "express": "^4.17.1",
+    "express-less": "^0.1.0",
+    "file-loader": "^4.0.0",
+    "fs-extra": ">= 0.0.4",
+    "html-webpack-plugin": "^3.2.0",
+    "less": "^3.9.0",
+    "less-loader": "^5.0.0",
+    "mime": "^2.4.4",
+    "mini-css-extract-plugin": "^0.7.0",
+    "opn": "^6.0.0",
+    "qunit": "^2.9.2",
+    "standard": "^12.0.1",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.4.5",
+    "yargs-parser": "^13.1.1"
+  }
+}
