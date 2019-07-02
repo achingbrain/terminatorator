@@ -1,10 +1,8 @@
 # Terminatorator
 
-> A convincingly realistic fake terminal for your webapp.
+> A convincingly realistic fake terminal for your webapp ([demo](https://achingbrain.github.io/terminatorator/)).
 
 ![Image of a Terminatorator running. Looks boss.](./assets/screenshot.png)
-
-[Demo](https://achingbrain.github.io/terminatorator/).
 
 ## How to use
 
