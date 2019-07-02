@@ -14,7 +14,8 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: __dirname + '/dist',
-    library: 'terminatorator'
+    library: 'terminatorator',
+    libraryTarget: 'umd'
   },
   mode: isProduction ? 'production' : 'development',
   devtool: isProduction ? 'none' : 'cheap-source-map',
@@ -24,7 +25,6 @@ module.exports = {
       chunks: [
         'debug'
       ]
-      // inject: 'head'
     }),
     isProduction ? new MiniCssExtractPlugin() : null
   ].filter(Boolean),
