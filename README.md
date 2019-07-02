@@ -87,12 +87,12 @@ A object contains the following keys:
 
 ## What's in a name?
 
-Big up Green Lungs and the Arachnid Egg Sac Crew in [Isleworth](https://en.wikipedia.org/wiki/Isleworth), easy.
-Big up Baron Bin Man, easy.
-Keep it locked on, Ursa Minor, easy.
-[Big up the Terminatorator, easy](https://youtu.be/3z9uLdARaNU?t=700).
-Big to Susan and Timothy in [Barnes](https://en.wikipedia.org/wiki/Barnes,_London), easy.
-Boi, you know it!
-I can't stop!
-
+Big up Green Lungs and the Arachnid Egg Sac Crew in [Isleworth](https://en.wikipedia.org/wiki/Isleworth), easy.<br />
+Big up Baron Bin Man, easy.<br />
+Keep it locked on, Ursa Minor, easy.<br />
+[Big up the Terminatorator, easy](https://youtu.be/3z9uLdARaNU?t=700).<br />
+Big to Susan and Timothy in [Barnes](https://en.wikipedia.org/wiki/Barnes,_London), easy.<br />
+Boi, you know it!<br />
+I can't stop!<br />
+<br />
 T-WOG$ RIP.
