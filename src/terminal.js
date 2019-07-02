@@ -103,14 +103,24 @@ export async function createTerminal (container, options) {
   var _terminal = container
   _terminal.classList.add('terminal')
   _terminal.classList.add('terminal-' + options.theme)
-  _terminal.insertAdjacentHTML('beforeEnd', [
-    '<div class="background"><div class="interlace"></div></div>',
-    '<div class="container">',
-    '<output></output>',
-    '<table class="input-line">',
-    '<tr><td nowrap><div class="prompt">' + options.prompt + '</div></td><td width="100%"><input class="cmdline" spellcheck="false" autofocus /></td></tr>',
-    '</table>',
-    '</div>'].join(''))
+  _terminal.insertAdjacentHTML('beforeEnd', `
+  <div class="background">
+    <div class="interlace"></div>
+  </div>
+  <div class="container">
+    <output></output>
+    <table class="input-line">
+      <tr>
+        <td nowrap>
+          <div class="prompt">${options.prompt}</div>
+        </td>
+        <td width="100%">
+          <input class="cmdline" spellcheck="false" autofocus />
+        </td>
+      </tr>
+    </table>
+  </div>
+  `)
   var _container = _terminal.querySelector('.container')
   var _inputLine = _container.querySelector('.input-line')
   var _cmdLine = _container.querySelector('.input-line .cmdline')
@@ -213,37 +223,40 @@ export async function createTerminal (container, options) {
   }
 
   async function output (html = '') {
-    _inputLine.classList.add('hidden')
+    _prompt.classList.add('hidden')
 
-    if ((html[Symbol.asyncIterator] || html[Symbol.iterator]) && typeof html !== 'string') {
-      try {
+    await _maybeAppendOutput(html)
+
+    _prompt.classList.remove('hidden')
+  }
+
+  async function _maybeAppendOutput (html = '') {
+    try {
+      if ((html[Symbol.asyncIterator] || html[Symbol.iterator]) && typeof html !== 'string') {
         for await (let val of html) {
-          output(val)
+          await _maybeAppendOutput(val)
         }
-      } catch (err) {
-        console.error(err)
-        output(err.message)
-      }
-    } else if (html.then) {
-      try {
+      } else if (html.then) {
         const val = await html
 
-        output(val)
-      } catch (err) {
-        console.error(err)
-        output(err.message)
+        await _maybeAppendOutput(val)
+      } else {
+        _appendOutput(html)
       }
-    } else {
-      _output.insertAdjacentHTML('beforeEnd', html)
+    } catch (err) {
+      console.error(err)
+      _appendOutput(err.message)
+    }
+  }
 
-      if (html && html.trim().substr(-1) !== '>') {
-        _output.insertAdjacentHTML('beforeEnd', '<br/>')
-      }
+  function _appendOutput (val = '') {
+    _output.insertAdjacentHTML('beforeEnd', val)
 
-      _cmdLine.scrollIntoView()
+    if (val && val.trim().substr(-1) !== '>') {
+      _output.insertAdjacentHTML('beforeEnd', '<br/>')
     }
 
-    _inputLine.classList.remove('hidden')
+    _cmdLine.scrollIntoView()
   }
 
   function cmdLineIsVisible () {
@@ -335,11 +348,11 @@ export async function createTerminal (container, options) {
       fs.write(history, contents, session)
     }
 
+    await ret
+
     options.prompt = `${session.env.USER} ${session.env.PWD.split('/').pop()} ${session.env.USER === 'root' ? '#' : '$'}`
 
     _prompt.innerHTML = options.prompt
-
-    return ret
   }
 
   function tabComplete () {
