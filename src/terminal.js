@@ -91,7 +91,8 @@ export async function createTerminal (container, options) {
       PWD: '/root',
       HOME: '/root'
     },
-    commands: options.commands
+    commands: options.commands,
+    fs
   }
 
   var _history = localStorage[options.history] ? JSON.parse(localStorage[options.history]) : []

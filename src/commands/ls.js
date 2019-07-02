@@ -36,7 +36,29 @@ function calculatePerms (perms, position) {
 
 module.exports = {
   handler: (args, session) => {
-    let files = fs.ls(args._[0], session)
+    const node = fs.getNode(args._[0] || session.env.PWD, session)
+
+    if (!node) {
+      throw new Error(`read: ${args._[0]}: No such file or directory`)
+    }
+
+    let files
+
+    if (node.content !== undefined) {
+      files = [{
+        name: path.split('/').pop(),
+        node: node
+      }]
+    } else {
+      files = Object.keys(node.children)
+      .map(name => {
+        return {
+          name: name,
+          node: node.children[name]
+        }
+      })
+    }
+
     files = files.sort((a, b) => a.name.localeCompare(b.name))
 
     if (!args.a) {

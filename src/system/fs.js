@@ -30,16 +30,12 @@ const createFile = (content = '', { uid, gid, perms } = {}) => {
   }
 }
 
-let pwd = '/home/alex'
 const fileSystem = createDir({
   uid: 0,
   gid: 0
 })
 
 const fs = {
-  pwd: () => {
-    return pwd
-  },
   getNode: (input, session) => {
     let path = normalisePath(input, session)
 
@@ -156,29 +152,6 @@ const fs = {
     }
 
     delete node.children[file]
-  },
-  ls: (input, session) => {
-    let path = normalisePath(input || session.env.PWD, session)
-    const node = fs.getNode(path, session)
-
-    if (!node) {
-      throw new Error(`read: ${input}: No such file or directory`)
-    }
-
-    if (node.content !== undefined) {
-      return [{
-        name: path.split('/').pop(),
-        node: node
-      }]
-    }
-
-    return Object.keys(node.children)
-      .map(name => {
-        return {
-          name: name,
-          node: node.children[name]
-        }
-      })
   }
 }
 
@@ -190,7 +163,7 @@ function normalisePath (input, session) {
   }
 
   if (path.substring(0, 1) !== '/') {
-    path = `${pwd}/${path}`
+    path = `${session.env.PWD}/${path}`
   }
 
   path = path.replace(/\/+/g, '/')
