@@ -1,11 +1,11 @@
 const pkg = require('../../package.json')
 
 module.exports = {
-  handler: (args, session) => {
+  handler: () => {
     return [
       `${pkg.name}@${pkg.version} - ${pkg.description}`,
       ' ',
-      'Run `ls -l /bin` for available commands'
+      'Run `echo $PATH` and `ls` some of the paths for available commands'
     ]
   }
 }

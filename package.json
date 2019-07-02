@@ -19,8 +19,9 @@
     "url": "https://github.com/achingbrain/terminatorator.git"
   },
   "scripts": {
+    "clean": "rm -rf dist",
     "build": "webpack",
-    "prepublish": "npm run build",
+    "prepublish": "npm run clean && npm run build",
     "test": "node test/index.js",
     "start": "webpack-dev-server",
     "lint": "standard"

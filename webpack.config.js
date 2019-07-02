@@ -7,10 +7,24 @@ const path = require('path')
 const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  devtool: isProduction ? 'none' : 'inline-source-map',
+  entry: {
+    main: './src/terminal.js',
+    debug: './src/index.js'
+  },
+  output: {
+    filename: '[name].js',
+    path: __dirname + '/dist',
+    library: 'terminatorator'
+  },
+  mode: isProduction ? 'production' : 'development',
+  devtool: isProduction ? 'none' : 'cheap-source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      template: 'src/index.html',
+      chunks: [
+        'debug'
+      ]
+      // inject: 'head'
     }),
     isProduction ? new MiniCssExtractPlugin() : null
   ].filter(Boolean),
@@ -69,7 +83,8 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
-    port: 9000,
-    index: 'src/index.html'
+    port: 43829,
+    index: 'index.html',
+    open: true
   }
 }

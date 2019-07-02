@@ -4,4 +4,4 @@ import {
   createTerminal
 } from './terminal'
 
-createTerminal('terminal')
+createTerminal(document.getElementById('terminal'))

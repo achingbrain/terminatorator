@@ -34,17 +34,30 @@ const commands = {
   '/usr/local/bin/version': require('./commands/version'),
   '/usr/bin/which': require('./commands/which'),
   '/usr/bin/whoami': require('./commands/whoami'),
+  '/bin/echo': require('./commands/echo'),
   [`/bin/${pkg.name}`]: require('./commands/terminatorator')
 }
 
-export async function createTerminal (containerID, options) {
-  if (!containerID) {
-    throw new Error('Container ID is required')
+const motd = `<pre>
+ _______                  _             _                  _
+|__   __|                (_)           | |                | |
+   | | ___ _ __ _ __ ___  _ _ __   __ _| |_ ___  _ __ __ _| |_ ___  _ __
+   | |/ _ | '__| '_ \` _ \\| | '_ \\ / _\` | __/ _ \\| '__/ _\` | __/ _ \\| '__|
+   | |  __| |  | | | | | | | | | | (_| | || (_) | | | (_| | || (_) | |
+   |_|\____|_|  |_| |_| |_|_|_| |_|\\__,_|\\__\\___/|_|  \\__,_|\\__\\___/|_|
+</pre>
+<br/>
+Type \`help\` for help
+<br/>
+<br/>`
+
+export async function createTerminal (container, options) {
+  if (!container) {
+    throw new Error('Container is required')
   }
 
   var defaults = {
-    welcome: '',
-    prompt: '$',
+    welcome: motd,
     theme: 'interlaced',
     commands: {},
     history: 'cli-history',
@@ -55,7 +68,6 @@ export async function createTerminal (containerID, options) {
     ...defaults
   }
   options.welcome = options.welcome || defaults.welcome
-  options.prompt = options.prompt || defaults.prompt
   options.theme = options.theme || defaults.theme
   options.commands = options.commands || defaults.commands
   options.user = options.user || defaults.user
@@ -87,7 +99,7 @@ export async function createTerminal (containerID, options) {
   var _histtemp = ''
 
   // Create terminal and cache DOM nodes
-  var _terminal = document.getElementById(containerID)
+  var _terminal = container
   _terminal.classList.add('terminal')
   _terminal.classList.add('terminal-' + options.theme)
   _terminal.insertAdjacentHTML('beforeEnd', [
@@ -112,10 +124,6 @@ export async function createTerminal (containerID, options) {
       _cmdLine.scrollIntoView()
     }, 0)
   }, false)
-
-  if (options.welcome) {
-    output(options.welcome)
-  }
 
   _terminal.addEventListener('click', function (e) {
     _cmdLine.focus()
@@ -286,11 +294,11 @@ export async function createTerminal (containerID, options) {
         }
       })
 
-    cmd = `${prefix}/${cmd}`
-
-    if (!options.commands[cmd]) {
+    if (!prefix) {
       return output(cmd + ': command not found')
     }
+
+    cmd = `${prefix}/${cmd}`
 
     const command = options.commands[cmd]
 
@@ -338,6 +346,7 @@ export async function createTerminal (containerID, options) {
   }
 
   await boot(session, options)
+  await output(options.welcome)
 
   return api
 }
