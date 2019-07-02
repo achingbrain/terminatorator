@@ -20,11 +20,12 @@
   },
   "scripts": {
     "build": "webpack",
+    "prepublish": "npm run build",
     "test": "node test/index.js",
     "start": "webpack-dev-server",
     "lint": "standard"
   },
-  "main": "src/terminal.js",
+  "main": "dist/main.js",
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
