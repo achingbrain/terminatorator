@@ -10,8 +10,8 @@ module.exports = {
     }
 
     fs.write(_[0], '', session, {
-      uid: users.find('alex').uid,
-      gid: users.find('alex').gid
+      uid: users.find(session.USER).uid,
+      gid: users.find(session.USER).gid
     })
 
     return ''

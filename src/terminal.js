@@ -332,7 +332,7 @@ export async function createTerminal (container, options) {
       }
 
       contents += cmdline
-      fs.write(history, contents, session, {})
+      fs.write(history, contents, session)
     }
 
     options.prompt = `${session.env.USER} ${session.env.PWD.split('/').pop()} ${session.env.USER === 'root' ? '#' : '$'}`

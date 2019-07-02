@@ -77,6 +77,14 @@ A object contains the following keys:
                                      // pass hidden: true if you do not wish the command to be echoed to
                                      // the screen or added to the history
     print: (line) // call this function to add output to the screen
+  },
+  fs: {
+    // call functions here to manpiulate the filesystem directly
+    getNode: (path, session), // return a fs node
+    mkdir: (path, session, { uid, gid, perms }), // create a directory node
+    write: (path, content, session, { uid, gid, perms, parents }), // create a file node
+    read: (path, session), // read file contents
+    rm: (path, session, { recursive }) // remove an fs node
   }
 }
 ```

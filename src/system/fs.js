@@ -102,7 +102,7 @@ const fs = {
         continue
       }
 
-      if (opts.p) {
+      if (opts.parents) {
         node = node.children[parts[i]] = createDir(opts)
 
         continue
@@ -147,7 +147,7 @@ const fs = {
       throw new Error(`rm: ${input}: No such file or directory`)
     }
 
-    if (node.children[file].children && !opts.r) {
+    if (node.children[file].children && !opts.recursive) {
       throw new Error(`rm: ${input}: is a directory`)
     }
 

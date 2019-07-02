@@ -18,6 +18,10 @@ module.exports = {
     boolean: [
       'r',
       'f'
-    ]
+    ],
+    alias: {
+      recursive: ['r'],
+      force: ['f']
+    }
   }
 }
