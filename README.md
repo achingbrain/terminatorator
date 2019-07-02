@@ -15,9 +15,9 @@ Add a div to your web page hold the terminal:
 Create the terminal:
 
 ```javascript
-const {
+import {
   createTerminal
-} = require('terminatorator')
+} from 'terminatorator'
 
 createTerminal(document.getElementById('terminal'), {
   welcome: 'hello world', // will be printed on start
