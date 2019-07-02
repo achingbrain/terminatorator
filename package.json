@@ -1,7 +1,7 @@
 {
   "name": "terminatorator",
   "description": "A terminal emulator for your browser",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "keywords": [
     "javascript",
     "terminal",
