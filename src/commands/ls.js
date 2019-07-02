@@ -1,6 +1,6 @@
-const fs = require('../system/fs')
-const users = require('../system/users')
-const groups = require('../system/groups')
+import fs from '../system/fs'
+import users from '../system/users'
+import groups from '../system/groups'
 
 function calculatePerms (perms, position) {
   const calc = {
@@ -34,7 +34,7 @@ function calculatePerms (perms, position) {
   return '---'
 }
 
-module.exports = {
+export default {
   handler: (args, session) => {
     const node = fs.getNode(args._[0] || session.env.PWD, session)
 

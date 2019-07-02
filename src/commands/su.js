@@ -1,6 +1,6 @@
-const users = require('../system/users')
+import users from '../system/users'
 
-module.exports = {
+export default {
   handler: (args, session) => {
     if (!args._.length) {
       throw new Error('su: Args required')

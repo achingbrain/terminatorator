@@ -21,9 +21,10 @@ const {
 
 createTerminal(document.getElementById('terminal'), {
   welcome: 'hello world', // will be printed on start
-  theme: 'interlaced', // || 'modern' || 'white' - can be changed at runtime using the `theme` command
+  theme: 'interlaced', // || 'modern' || 'white' - can be changed at runtime
+    // using the `theme` command
   commands: {}, // see `Adding custom commands` below
-  history: 'cli-history', // the localStorage key to store terminal history under
+  history: 'cli-history', // the localStorage key used to store terminal history
   user: 'alex' // which user to be logged in as
 })
 ```
@@ -48,7 +49,8 @@ const myCommand = {
 
 createTerminal(document.getElementById('terminal'), {
   commands: {
-    // the key is where in the fs the command should be mounted, the value is the command as defined above
+    // the key is where in the fs the command should be mounted, the value is
+    // the command as defined above
     '/usr/local/bin/my-command': myCommand
   }
 })
@@ -73,16 +75,20 @@ A object contains the following keys:
     // path=command of all available commands
   },
   api: {
-    exec: (line, { hidden: false }), // call this function with a line of shell input to execute commands,
-                                     // pass hidden: true if you do not wish the command to be echoed to
-                                     // the screen or added to the history
+    exec: (line, { hidden: false }), // call this function with a line of shell
+      // input to execute commands, pass hidden: true if you do not wish the
+      // command to be echoed to the screen or added to the history
     print: (line) // call this function to add output to the screen
   },
   fs: {
     // call functions here to manpiulate the filesystem directly
     getNode: (path, session), // return a fs node
-    mkdir: (path, session, { uid, gid, perms }), // create a directory node
-    write: (path, content, session, { uid, gid, perms, parents }), // create a file node
+    mkdir: (path, session, { uid, gid, perms, parents }), // create a directory
+      // node with the passed uid, gid and perms - parents: true will created
+      // intermediate directories
+    write: (path, content, session, { uid, gid, perms, parents }), // create a
+      // file node with the passed uid, gid and perms - parents: true will
+      // created intermediate directories
     read: (path, session), // read file contents
     rm: (path, session, { recursive }) // remove an fs node
   }

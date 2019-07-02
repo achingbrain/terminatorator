@@ -1,7 +1,7 @@
-const users = require('../system/users')
-const fs = require('../system/fs')
+import fs from '../system/fs'
+import users from '../system/users'
 
-module.exports = {
+export default {
   handler: (args, session) => {
     const name = args._[0]
     const {

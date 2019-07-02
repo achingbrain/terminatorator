@@ -1,5 +1,5 @@
 
-module.exports = {
+export default {
   handler: (args, session) => {
     return session.env.PWD
   }

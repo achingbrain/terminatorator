@@ -1,4 +1,4 @@
-const fs = require('../system/fs')
+import fs from '../system/fs'
 
 const setPerms = (node, perms) => {
   node.perms = perms
@@ -9,7 +9,7 @@ const setPerms = (node, perms) => {
     })
 }
 
-module.exports = {
+export default {
   handler: (args, session) => {
     if (args._.length !== 2) {
       throw new Error('usage: chmod [-fhv] [-R [-H | -L | -P]] [-a | +a | =a  [i][# [ n]]] mode|entry file ...')

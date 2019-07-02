@@ -1,6 +1,6 @@
-const {
-  resolve
-} = require('path')
+import {
+  normalisePath
+} from '../utils'
 
 const createDir = ({ uid, gid, perms } = {}) => {
   return {
@@ -61,7 +61,7 @@ const fs = {
 
     return node
   },
-  mkdir: (input, session, opts) => {
+  mkdir: (input, session, opts = {}) => {
     let path = normalisePath(input, session)
 
     path = path.replace(/^\/+/g, '').replace(/\/+$/g, '')
@@ -76,7 +76,7 @@ const fs = {
         continue
       }
 
-      if (opts.p || i === parts.length - 1) {
+      if (opts.parents || i === parts.length - 1) {
         node = node.children[parts[i]] = createDir(opts)
 
         continue
@@ -85,7 +85,7 @@ const fs = {
       throw new Error(`mkdir: ${input}: No such file or directory`)
     }
   },
-  write: (input, content, session, opts) => {
+  write: (input, content, session, opts = {}) => {
     let path = normalisePath(input, session)
 
     path = path.replace(/^\/+/g, '').replace(/\/+$/g, '')
@@ -123,7 +123,7 @@ const fs = {
 
     return node.content
   },
-  rm: (input, session, opts) => {
+  rm: (input, session, opts = {}) => {
     let path = normalisePath(input, session)
 
     path = path.replace(/^\/+/g, '').replace(/\/+$/g, '')
@@ -155,24 +155,4 @@ const fs = {
   }
 }
 
-function normalisePath (input, session) {
-  let path = input
-
-  if (path.substring(0, 2) === '~/') {
-    path = `${session.env.HOME}/${path.substring(2)}`
-  }
-
-  if (path.substring(0, 1) !== '/') {
-    path = `${session.env.PWD}/${path}`
-  }
-
-  path = path.replace(/\/+/g, '/')
-  path = path.replace(/^\/+/g, '').replace(/\/+$/g, '')
-  path = `/${path}`
-
-  path = resolve(path)
-
-  return path
-}
-
-module.exports = fs
+export default fs

@@ -19,4 +19,4 @@ const groupApi = {
   }
 }
 
-module.exports = groupApi
+export default groupApi

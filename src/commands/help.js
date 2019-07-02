@@ -1,6 +1,6 @@
-const pkg = require('../../package.json')
+import pkg from '../../package.json'
 
-module.exports = {
+export default {
   handler: () => {
     return [
       `${pkg.name}@${pkg.version} - ${pkg.description}`,

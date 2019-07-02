@@ -1,6 +1,9 @@
-const fs = require('../system/fs')
+import fs from '../system/fs'
+import {
+  normalisePath
+} from '../utils'
 
-module.exports = {
+export default {
   handler: ({ _ }, session) => {
     let path = _[0] || session.env.HOME
     const node = fs.getNode(path, session)
@@ -9,6 +12,6 @@ module.exports = {
       throw new Error(`cd: ${path}: No such file or directory`)
     }
 
-    session.env.PWD = path
+    session.env.PWD = normalisePath(path, session)
   }
 }

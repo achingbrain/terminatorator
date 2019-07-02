@@ -1,4 +1,4 @@
-const groups = require('./groups')
+import groups from './groups'
 
 let nextUid = 0
 const users = {}
@@ -34,4 +34,4 @@ const userApi = {
   }
 }
 
-module.exports = userApi
+export default userApi

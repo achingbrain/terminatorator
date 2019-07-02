@@ -1,5 +1,5 @@
 
-module.exports = {
+export default {
   handler: ({ _ }, session) => {
     let cmd = _[0]
     const prefix = session.env.PATH.split(':')

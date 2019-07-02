@@ -17,25 +17,25 @@ const KEYS = {
 }
 
 const commands = {
-  '/usr/bin/cat': require('./commands/cat'),
-  '/usr/bin/cd': require('./commands/cd'),
-  '/bin/chmod': require('./commands/chmod'),
-  '/usr/bin/env': require('./commands/env'),
-  '/bin/groupadd': require('./commands/groupadd'),
-  '/usr/local/bin/help': require('./commands/help'),
-  '/bin/ls': require('./commands/ls'),
-  '/bin/mkdir': require('./commands/mkdir'),
-  '/bin/pwd': require('./commands/pwd'),
-  '/bin/rm': require('./commands/rm'),
-  '/usr/bin/su': require('./commands/su'),
-  '/usr/local/bin/theme': require('./commands/theme'),
-  '/usr/bin/touch': require('./commands/touch'),
-  '/bin/useradd': require('./commands/useradd'),
-  '/usr/local/bin/version': require('./commands/version'),
-  '/usr/bin/which': require('./commands/which'),
-  '/usr/bin/whoami': require('./commands/whoami'),
-  '/bin/echo': require('./commands/echo'),
-  [`/bin/${pkg.name}`]: require('./commands/terminatorator')
+  '/usr/bin/cat': require('./commands/cat').default,
+  '/usr/bin/cd': require('./commands/cd').default,
+  '/bin/chmod': require('./commands/chmod').default,
+  '/usr/bin/env': require('./commands/env').default,
+  '/bin/groupadd': require('./commands/groupadd').default,
+  '/usr/local/bin/help': require('./commands/help').default,
+  '/bin/ls': require('./commands/ls').default,
+  '/bin/mkdir': require('./commands/mkdir').default,
+  '/bin/pwd': require('./commands/pwd').default,
+  '/bin/rm': require('./commands/rm').default,
+  '/usr/bin/su': require('./commands/su').default,
+  '/usr/local/bin/theme': require('./commands/theme').default,
+  '/usr/bin/touch': require('./commands/touch').default,
+  '/bin/useradd': require('./commands/useradd').default,
+  '/usr/local/bin/version': require('./commands/version').default,
+  '/usr/bin/which': require('./commands/which').default,
+  '/usr/bin/whoami': require('./commands/whoami').default,
+  '/bin/echo': require('./commands/echo').default,
+  [`/bin/${pkg.name}`]: require('./commands/terminatorator').default
 }
 
 const motd = `<pre>

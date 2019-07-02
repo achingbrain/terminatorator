@@ -1,7 +1,7 @@
-const fs = require('../system/fs')
-const users = require('../system/users')
+import fs from '../system/fs'
+import users from '../system/users'
 
-module.exports = {
+export default {
   handler: (args, session) => {
     const { _ } = args
 
@@ -13,7 +13,7 @@ module.exports = {
       fs.mkdir(_[i], session, {
         uid: users.find(session.env.USER).uid,
         gid: users.find(session.env.USER).gid,
-        p: args.p
+        parents: args.parents
       })
     }
 
@@ -22,6 +22,9 @@ module.exports = {
   args: {
     boolean: [
       'p'
-    ]
+    ],
+    alias: {
+      parents: ['p']
+    }
   }
 }

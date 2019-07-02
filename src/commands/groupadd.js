@@ -1,6 +1,6 @@
-const groups = require('../system/groups')
+import groups from '../system/groups'
 
-module.exports = {
+export default {
   handler: (args, session) => {
     if (!args._.length) {
       throw new Error('groupadd: args required')

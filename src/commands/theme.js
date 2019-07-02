@@ -1,5 +1,5 @@
 
-module.exports = {
+export default {
   handler: (args, session) => {
     if (!args._.length) {
       session.api.getTheme()

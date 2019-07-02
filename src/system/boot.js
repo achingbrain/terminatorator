@@ -1,6 +1,5 @@
-const users = require('./users')
-
-const fs = require('./fs')
+import users from './users'
+import fs from './fs'
 
 export default async function boot (session, options) {
   const execOpts = {
