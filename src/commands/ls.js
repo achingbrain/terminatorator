@@ -36,10 +36,11 @@ function calculatePerms (perms, position) {
 
 export default {
   handler: (args, session) => {
-    const node = fs.getNode(args._[0] || session.env.PWD, session)
+    const path = args._[0] || session.env.PWD
+    const node = fs.getNode(path, session)
 
     if (!node) {
-      throw new Error(`read: ${args._[0]}: No such file or directory`)
+      throw new Error(`read: ${path}: No such file or directory`)
     }
 
     let files
@@ -51,12 +52,12 @@ export default {
       }]
     } else {
       files = Object.keys(node.children)
-      .map(name => {
-        return {
-          name: name,
-          node: node.children[name]
-        }
-      })
+        .map(name => {
+          return {
+            name: name,
+            node: node.children[name]
+          }
+        })
     }
 
     files = files.sort((a, b) => a.name.localeCompare(b.name))

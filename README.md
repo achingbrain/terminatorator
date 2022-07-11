@@ -24,6 +24,7 @@ createTerminal(document.getElementById('terminal'), {
   theme: 'interlaced', // || 'modern' || 'white' - can be changed at runtime
     // using the `theme` command
   commands: {}, // see `Adding custom commands` below
+  files: {}, // see `Files` below
   history: 'cli-history', // the localStorage key used to store terminal history
   user: 'alex' // which user to be logged in as
 })
@@ -57,6 +58,23 @@ createTerminal(document.getElementById('terminal'), {
 ```
 
 Command handlers take two arguments - `args` and `session`.
+
+## Files
+
+You can pre-create any files in the filesystem:
+
+```javascript
+createTerminal(document.getElementById('terminal'), {
+  files: {
+    // the key is where in the fs the file should be, the value is
+    // the attributes of the file. All keys are optional.
+    '~/Documents/foo.txt': {
+      content: 'hello world', // defaults to an empty string
+      owner: 'root' // defaults to the current user
+    }
+  }
+})
+```
 
 ### `args`
 

@@ -52,4 +52,12 @@ export default async function boot (session, options) {
 
   await session.api.exec(`cd /home/${options.user}`, execOpts)
   await session.api.exec(`su ${options.user}`, execOpts)
+
+  Object.keys(options.files)
+    .forEach(path => {
+      fs.write(path, options.files[path].content || '', session, {
+        ...users.ids(options.files[path].owner || options.user),
+        parents: true
+      })
+    })
 }

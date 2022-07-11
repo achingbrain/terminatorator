@@ -44,7 +44,7 @@ const motd = `<pre>
    | | ___ _ __ _ __ ___  _ _ __   __ _| |_ ___  _ __ __ _| |_ ___  _ __
    | |/ _ | '__| '_ \` _ \\| | '_ \\ / _\` | __/ _ \\| '__/ _\` | __/ _ \\| '__|
    | |  __| |  | | | | | | | | | | (_| | || (_) | | | (_| | || (_) | |
-   |_|\____|_|  |_| |_| |_|_|_| |_|\\__,_|\\__\\___/|_|  \\__,_|\\__\\___/|_|
+   |_|\\____|_|  |_| |_| |_|_|_| |_|\\__,_|\\__\\___/|_|  \\__,_|\\__\\___/|_|
 </pre>
 <br/>
 Type \`help\` for help
@@ -60,6 +60,7 @@ export async function createTerminal (container, options) {
     welcome: motd,
     theme: 'interlaced',
     commands: {},
+    files: {},
     history: 'cli-history',
     user: 'alex'
   }
@@ -95,7 +96,7 @@ export async function createTerminal (container, options) {
     fs
   }
 
-  var _history = localStorage[options.history] ? JSON.parse(localStorage[options.history]) : []
+  var _history = window.localStorage[options.history] ? JSON.parse(window.localStorage[options.history]) : []
   var _histpos = _history.length
   var _histtemp = ''
 
@@ -155,7 +156,8 @@ export async function createTerminal (container, options) {
   _cmdLine.addEventListener('keydown', onKeyDown, true)
 
   function inputTextClick () {
-    _cmdLine.value = _cmdLine.value
+    // Move cursor to end of input.
+    _cmdLine.value = _cmdLine.value // eslint-disable-line
   }
 
   function historyHandler (e) {
@@ -190,7 +192,7 @@ export async function createTerminal (container, options) {
       _cmdLine.value = _history[_histpos] ? _history[_histpos] : _histtemp
 
       // Move cursor to end of input.
-      _cmdLine.value = _cmdLine.value
+      _cmdLine.value = _cmdLine.value // eslint-disable-line
     }
   }
 
@@ -295,7 +297,7 @@ export async function createTerminal (container, options) {
       // Save shell history.
       if (cmdline) {
         _history[_history.length] = cmdline
-        localStorage[options.history] = JSON.stringify(_history)
+        window.localStorage[options.history] = JSON.stringify(_history)
         _histpos = _history.length
       }
 
