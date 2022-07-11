@@ -206,7 +206,7 @@ export async function createTerminal (container, options) {
     }
 
     if (e.keyCode === KEYS.TAB) {
-      return tabComplete()
+      return tabComplete(e)
     }
 
     if (e.keyCode === KEYS.ENTER) {
@@ -362,13 +362,128 @@ export async function createTerminal (container, options) {
 
     await ret
 
-    options.prompt = `${session.env.USER} ${session.env.PWD.split('/').pop()} ${session.env.USER === 'root' ? '#' : '$'}`
+    options.prompt = `${session.env.USER} ${session.env.PWD === session.env.HOME ? '~' : session.env.PWD.split('/').pop()} ${session.env.USER === 'root' ? '#' : '$'}`
 
     _prompt.innerHTML = options.prompt
   }
 
-  function tabComplete () {
+  function findNodeFromPartialPath (path) {
+    if (!path) {
+      return {
+        node: session.fs.getNode(session.env.PWD),
+        path: '',
+        remainder: ''
+      }
+    }
 
+    if (!path.endsWith('/')) {
+      const parts = path.split('/')
+      const remainder = parts.pop()
+
+      return {
+        node: session.fs.getNode(session.env.PWD + '/' + parts.join('/')),
+        path: parts.join('/'),
+        remainder
+      }
+    }
+
+    path = path.replace(/\/\//g, '/')
+    path = path.substring(0, path.length - 1)
+
+    const node = session.fs.getNode(session.env.PWD + '/' + path)
+
+    if (!node) {
+      return {
+        node: session.fs.getNode(session.env.PWD),
+        path,
+        remainder: path
+      }
+    }
+
+    return {
+      node,
+      path,
+      remainder: ''
+    }
+  }
+
+  function tabComplete (e) {
+    e.preventDefault()
+
+    let args = parser(_cmdLine.value)
+    args._ = args._.map(a => a.toString())
+
+    if (args._.length === 0) {
+      // no command?
+      _cmdLine.value += '\t'
+    } else if (args._.length === 1 && !_cmdLine.value.endsWith(' ')) {
+      // complete command
+      const commands = Object.keys(session.commands)
+        .map(path => path.split('/').pop())
+        .filter(cmd => cmd.startsWith(args._[0]))
+
+      if (commands.length === 1) {
+        if (_cmdLine.value !== commands[0]) {
+          _cmdLine.value = commands[0]
+        }
+      } else {
+        session.api.print(commands.join(' '))
+      }
+    } else {
+      let partial = args._[args._.length - 1]
+
+      // complete file argument
+      let { node, path, remainder } = findNodeFromPartialPath(partial)
+
+      if (node.children == null) {
+        return
+      }
+
+      const children = Object.keys(node.children)
+        .map(file => [path, file].filter(Boolean).join('/'))
+        .filter(file => {
+          if (file.split('/').pop().startsWith('.')) {
+            // skip hidden files
+            return false
+          }
+
+          if (args._.length === 1) {
+            // only command, include everything
+            return true
+          }
+
+          if (partial.endsWith('/')) {
+            // return all directory contents
+            return true
+          }
+
+          if (file.split('/').pop().startsWith(remainder)) {
+            // it's a match!
+            return true
+          }
+
+          return false
+        })
+
+      if (children.length === 1) {
+        const candidate = children[0]
+
+        // if the end of the command line string is already the candidate, maybe we'll add a / to it
+        if (args._[args._.length - 1] === candidate) {
+          const candidateNode = session.fs.getNode(session.env.PWD + '/' + candidate)
+
+          if (candidateNode.children != null) {
+            _cmdLine.value += '/'
+          }
+        } else if (args._.length === 1) {
+          _cmdLine.value = [ ...args._, candidate ].join(' ')
+        } else {
+          _cmdLine.value = [ ...args._.slice(0, args._.length - 1), candidate ].join(' ')
+        }
+      } else {
+        session.api.print(children.join(' '))
+      }
+    }
   }
 
   await boot(session, options)
