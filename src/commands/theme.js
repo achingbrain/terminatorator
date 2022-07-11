@@ -7,7 +7,8 @@ const THEMES = [
 export default {
   handler: async (args, session) => {
     if (args.help) {
-      await session.api.print(THEMES.join(', '))
+      await session.api.print('theme: available: ' + THEMES.join(', '))
+      return
     }
 
     if (!args._.length) {
@@ -20,6 +21,6 @@ export default {
       return
     }
 
-    throw new Error('theme: Invalid theme')
+    throw new Error('error: theme: invalid theme')
   }
 }
