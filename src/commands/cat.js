@@ -13,5 +13,10 @@ export default {
     }
 
     return `<pre>${node.content}</pre>`
+  },
+  args: {
+    string: [
+      0
+    ]
   }
 }
