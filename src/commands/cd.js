@@ -12,6 +12,10 @@ export default {
       throw new Error(`cd: ${path}: No such file or directory`)
     }
 
+    if (node.children == null) {
+      throw new Error(`cd: not a directory: ${path}`)
+    }
+
     session.env.PWD = normalisePath(path, session)
   }
 }
