@@ -275,7 +275,17 @@ export async function createTerminal (container, options) {
     exec: (line, opts) => {
       return executeCommand(line, opts)
     },
-    print: output
+    print: output,
+
+    setTheme: (theme) => {
+      _terminal.classList.remove('terminal-' + options.theme)
+      options.theme = theme
+      _terminal.classList.add('terminal-' + options.theme)
+    },
+
+    getTheme: async () => {
+      await output(options.theme)
+    }
   }
 
   session.api = api
