@@ -220,7 +220,6 @@ export async function createTerminal (container, options) {
 
   function clear () {
     _output.innerHTML = ''
-    _cmdLine.value = ''
     _background.style.minHeight = ''
   }
 
